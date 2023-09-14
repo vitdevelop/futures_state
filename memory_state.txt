@@ -1,0 +1,16 @@
+Rust futures memory structure on stack
+------------------------------------------------------------------------------------------------------|
+Stack futures            | Data                              | Heap futures(Box::pin)                 |
+------------------------------------------------------------------------------------------------------|
+Before async function dec| (i)mutable variable declared      | data are stored in heap                |
+laration if values are   | before await and used after await,|                                        |
+calculated at runtime    |                                   |                                        |
+and (not)used after await|                                   |                                        |
+------------------------------------------------------------------------------------------------------|
+function                 | async function                    | function on stack                      |
+------------------------------------------------------------------------------------------------------|
+After async function decl| (i)mutable variable declared and  | if are passed to i/o function          |
+aration they are stored  | used before or after await,       | ex. println macro                      |
+in reverse order compared| don't cover both case             | else behavior for stack futures        |
+to how are declared      |                                   | before or after async function declared|
+------------------------------------------------------------------------------------------------------|
